@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,11 +29,9 @@ namespace AlexeyMelentyev_chat_project
             return message;
         }
 
-        public bool TrySendMessage(string message, string contactName)
-        {
+        public void SendMessage(string message, string contactName)
+        {   
             // TO DO: implement
-
-            return true;
         }
     }
 }

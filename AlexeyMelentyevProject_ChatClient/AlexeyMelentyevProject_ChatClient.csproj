@@ -53,7 +53,6 @@
     <Compile Include="Windows\AM_Chat.Designer.cs">
       <DependentUpon>AM_Chat.cs</DependentUpon>
     </Compile>
-    <Compile Include="IMessenger.cs" />
     <Compile Include="Windows\MyControls\ContactControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -95,6 +94,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Interfaces\Interfaces.csproj">
+      <Project>{0ceeac92-95d4-4f4c-8c16-76e514d50ca9}</Project>
+      <Name>Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

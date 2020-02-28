@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AlexeyMelentyev_chat_project
+namespace Interfaces
 {
     public interface IMessenger
     {
         string GetMessage();
 
-        bool TrySendMessage(string message, string contactName);
+        void SendMessage(string message, string contactName);
     }
 }

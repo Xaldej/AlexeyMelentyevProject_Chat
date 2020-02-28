@@ -29,13 +29,13 @@ namespace AlexeyMelentyev_chat_project.Windows
         {
             if (e.KeyCode == Keys.Enter)
             {
-                Send_Message();
+                TrySendMessage();
             }
         }
 
         private void Send_button_Click(object sender, EventArgs e)
         {
-            Send_Message();
+            TrySendMessage();
         }
 
         private void ShowGottenMessage(string message)
@@ -44,22 +44,46 @@ namespace AlexeyMelentyev_chat_project.Windows
             ChatHistory_richTextBox.AppendText(message + "\n");
         }
 
-        private void Send_Message()
-        {
-            var inputMessage = InputMessage_textBox.Text;
+        private void TrySendMessage()
+        {   
+            var userInput = InputMessage_textBox.Text;
 
-            if (inputMessage == string.Empty)
-            {
-                return;
-            }
+            var isUserInputCorrect = ValidateUserInput(userInput);
 
-            if (Messenger.TrySendMessage(inputMessage, "temp"))
+            if(isUserInputCorrect)
             {
-                ChatHistory_richTextBox.SelectionAlignment = HorizontalAlignment.Right;
-                ChatHistory_richTextBox.AppendText(inputMessage + "\n");
-                InputMessage_textBox.Clear();
+                ShowMessage(userInput);
+                try
+                {
+                    Messenger.SendMessage(userInput, "temp");
+                }
+                catch
+                {
+                    ChatHistory_richTextBox.SelectionAlignment = HorizontalAlignment.Center;
+                    ChatHistory_richTextBox.AppendText("------NO CONNECTION TO SERVER------\n" +
+                                                       "message is not sent\n" +
+                                                       "try to reconnect\n");
+                }
             }
         }
 
+        private void ShowMessage(string userInput)
+        {
+            ChatHistory_richTextBox.SelectionAlignment = HorizontalAlignment.Right;
+            ChatHistory_richTextBox.AppendText(userInput + "\n");
+            InputMessage_textBox.Clear();
+        }
+
+        private bool ValidateUserInput(string inputMessage)
+        {
+            var isMessageCorrect = false;
+
+            if (inputMessage != string.Empty)
+            {
+                isMessageCorrect = true;
+            }
+
+            return isMessageCorrect;
+        }
     }
 }
