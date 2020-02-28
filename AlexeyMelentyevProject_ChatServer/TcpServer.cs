@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AlexeyMelentyevProject_ChatServer
@@ -12,6 +13,8 @@ namespace AlexeyMelentyevProject_ChatServer
     {
         public int Port = 8888;
         public string Ip = "127.0.0.1";
+
+        //private Dictionary
 
         public TcpServer()
         {
@@ -39,20 +42,12 @@ namespace AlexeyMelentyevProject_ChatServer
                 {
                     Console.WriteLine("Waiting for connections");
 
-                    using (TcpClient client = server.AcceptTcpClient())
-                    {
-                        string response = "Hellow World!";
+                    TcpClient tcpClient = server.AcceptTcpClient();
 
-                        byte[] responseData = Encoding.UTF8.GetBytes(response);
+                    var client = new Client(tcpClient);
 
-                        NetworkStream stream = client.GetStream();
-
-                        stream.Write(responseData, 0, responseData.Length);
-
-                        Console.WriteLine("Response is send}");
-
-                        stream.Close();
-                    }
+                    var thread = new Thread(new ThreadStart(client.InitiateProcess));
+                    thread.Start();
                 }
             }
             catch (Exception e)

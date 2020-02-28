@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerMessenger.cs" />
@@ -52,6 +53,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AlexeyMelentyevProject_ChatServer.Data\AlexeyMelentyevProject_ChatServer.Data.csproj">
+      <Project>{8c3550ac-7528-4ae3-a2db-f2782503ea65}</Project>
+      <Name>AlexeyMelentyevProject_ChatServer.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Interfaces\Interfaces.csproj">
       <Project>{0ceeac92-95d4-4f4c-8c16-76e514d50ca9}</Project>
       <Name>Interfaces</Name>
