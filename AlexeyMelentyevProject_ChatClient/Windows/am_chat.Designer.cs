@@ -92,6 +92,7 @@
             this.AddContact_button.TabIndex = 0;
             this.AddContact_button.Text = "Add Contact";
             this.AddContact_button.UseVisualStyleBackColor = true;
+            this.AddContact_button.Click += new System.EventHandler(this.AddContact_button_Click);
             // 
             // AM_Chat
             // 

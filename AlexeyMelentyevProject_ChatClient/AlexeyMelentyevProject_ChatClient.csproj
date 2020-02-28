@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AmMessenger.cs" />
+    <Compile Include="ClientSettings.cs" />
     <Compile Include="Windows\AM_Chat.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -69,6 +70,9 @@
     </Compile>
     <EmbeddedResource Include="Windows\AM_Chat.resx">
       <DependentUpon>AM_Chat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Windows\MyControls\ContactControl.resx">
       <DependentUpon>ContactControl.cs</DependentUpon>

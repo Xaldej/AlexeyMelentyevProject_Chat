@@ -12,7 +12,7 @@ namespace AlexeyMelentyev_chat_project.Windows
 {
     public partial class AM_Chat : Form
     {
-        private AmMessenger Messenger;
+        private AmMessenger Messenger { get; set; }
 
         public AM_Chat()
         {
@@ -20,9 +20,25 @@ namespace AlexeyMelentyev_chat_project.Windows
         }
 
         private void AM_Chat_Load(object sender, EventArgs e)
+        {   
+            GetMessenger();
+        }
+
+        private void GetMessenger()
         {
-            Messenger = new AmMessenger();
-            Messenger.MessageIsGotten += ShowGottenMessage;
+            try
+            {
+                Messenger = new AmMessenger(new ClientSettings(8888, "127.0.0.1"));
+                Messenger.MessageIsGotten += ShowGottenMessage;
+                
+            }
+            catch
+            {
+                string message = "Cannot connect to server";
+                string caption = "Error";
+                MessageBox.Show(message, caption);
+                Application.Exit();
+            }
         }
 
         private void InputMessage_textBox_KeyDown(object sender, KeyEventArgs e)
@@ -59,6 +75,7 @@ namespace AlexeyMelentyev_chat_project.Windows
                 }
                 catch
                 {
+                    
                     ChatHistory_richTextBox.SelectionAlignment = HorizontalAlignment.Center;
                     ChatHistory_richTextBox.AppendText("------NO CONNECTION TO SERVER------\n" +
                                                        "message is not sent\n" +
@@ -84,6 +101,11 @@ namespace AlexeyMelentyev_chat_project.Windows
             }
 
             return isMessageCorrect;
+        }
+
+        private void AddContact_button_Click(object sender, EventArgs e)
+        {
+            Messenger.Process();
         }
     }
 }

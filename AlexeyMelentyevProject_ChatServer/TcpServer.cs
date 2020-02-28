@@ -11,20 +11,25 @@ namespace AlexeyMelentyevProject_ChatServer
 {
     public class TcpServer
     {
-        public int Port = 8888;
-        public string Ip = "127.0.0.1";
+        public int Port { get; set; }
+        public string Ip { get; set; }
 
-        //private Dictionary
+        public List<ServerMessenger> ConnectedClients { get; set; }
 
-        public TcpServer()
+        public ServerMessenger Messenger { get; set; }
+
+        TcpServer()
         {
-
+            Port = 8888;
+            Ip = "127.0.0.1";
         }
 
         public TcpServer(int port, string ip)
         {
             Port = port;
             Ip = ip;
+
+            ConnectedClients = new List<ServerMessenger>();
         }
 
         public void StartServer()
@@ -38,15 +43,18 @@ namespace AlexeyMelentyevProject_ChatServer
 
                 server.Start();
 
+                Console.WriteLine("Waiting for connections");
+
                 while (true)
                 {
-                    Console.WriteLine("Waiting for connections");
-
                     TcpClient tcpClient = server.AcceptTcpClient();
 
-                    var client = new Client(tcpClient);
+                    var client = new ServerMessenger(tcpClient, ConnectedClients);
 
-                    var thread = new Thread(new ThreadStart(client.InitiateProcess));
+                    Console.WriteLine("client is added");
+                    ConnectedClients.Add(client);
+
+                    var thread = new Thread(new ThreadStart(client.ListenMessages));
                     thread.Start();
                 }
             }

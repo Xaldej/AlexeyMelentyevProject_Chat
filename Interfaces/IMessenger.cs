@@ -8,7 +8,7 @@ namespace Interfaces
 {
     public interface IMessenger
     {
-        string GetMessage();
+        void ListenMessages();
 
         void SendMessage(string message, string contactName);
     }
