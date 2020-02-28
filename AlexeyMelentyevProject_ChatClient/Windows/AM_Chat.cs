@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -21,24 +22,16 @@ namespace AlexeyMelentyev_chat_project.Windows
 
         private void AM_Chat_Load(object sender, EventArgs e)
         {   
-            GetMessenger();
+            StartMessenger();
         }
 
-        private void GetMessenger()
+        private void StartMessenger()
         {
-            try
-            {
-                Messenger = new AmMessenger(new ClientSettings(8888, "127.0.0.1"));
-                Messenger.MessageIsGotten += ShowGottenMessage;
-                
-            }
-            catch
-            {
-                string message = "Cannot connect to server";
-                string caption = "Error";
-                MessageBox.Show(message, caption);
-                Application.Exit();
-            }
+            Messenger = new AmMessenger(new ClientSettings(8888, "127.0.0.1"));
+            Messenger.MessageIsGotten += ShowGottenMessage;
+            var thread = new Thread(Messenger.Process);
+            thread.Start();
+       
         }
 
         private void InputMessage_textBox_KeyDown(object sender, KeyEventArgs e)
@@ -56,8 +49,8 @@ namespace AlexeyMelentyev_chat_project.Windows
 
         private void ShowGottenMessage(string message)
         {
-            ChatHistory_richTextBox.SelectionAlignment = HorizontalAlignment.Left;
-            ChatHistory_richTextBox.AppendText(message + "\n");
+            ChatHistory_richTextBox.Invoke(new Action(() => ChatHistory_richTextBox.SelectionAlignment = HorizontalAlignment.Left));
+            ChatHistory_richTextBox.Invoke(new Action(() => ChatHistory_richTextBox.AppendText(message + "\n")));
         }
 
         private void TrySendMessage()
@@ -105,7 +98,7 @@ namespace AlexeyMelentyev_chat_project.Windows
 
         private void AddContact_button_Click(object sender, EventArgs e)
         {
-            Messenger.Process();
+           
         }
     }
 }
