@@ -61,6 +61,15 @@ namespace AlexeyMelentyevProject_ChatServer
             }
         }
 
+        public void SendErrorToCurrentUser(string error)
+        {
+            byte[] data = new byte[TcpClient.ReceiveBufferSize];
+            var mes2 = error.ToUpper();
+            data = Encoding.Unicode.GetBytes(mes2);
+
+            Stream.Write(data, 0, data.Length);
+        }
+
         public void SendMessage(string message, Guid contactId)
         {
             byte[] data = new byte[TcpClient.ReceiveBufferSize];

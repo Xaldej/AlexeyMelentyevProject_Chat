@@ -46,7 +46,7 @@ namespace AlexeyMelentyevProject_ChatServer
             {
                 Console.WriteLine("User is not logged in");
                 var errorMessage = "Login problems. Try to reconnect\n" + "Detailed error: " + e.Message;
-                Messenger.SendMessage(errorMessage, User.Id);
+                Messenger.SendErrorToCurrentUser(errorMessage);
                 ConnectedClients.Remove(this);
             }
         }
