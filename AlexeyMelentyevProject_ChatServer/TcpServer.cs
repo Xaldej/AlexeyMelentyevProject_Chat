@@ -20,14 +20,14 @@ namespace AlexeyMelentyevProject_ChatServer
 
         TcpServer()
         {
-            Port = 8888;
             Ip = "127.0.0.1";
+            Port = 8888;
         }
 
-        public TcpServer(int port, string ip)
+        public TcpServer(string ip, int port)
         {
-            Port = port;
             Ip = ip;
+            Port = port;
 
             ConnectedClients = new List<Client>();
         }

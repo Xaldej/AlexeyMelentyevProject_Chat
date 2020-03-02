@@ -52,7 +52,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\BaseEntity.cs" />
+    <Compile Include="Entities\ContactRelationship.cs" />
     <Compile Include="Entities\User.cs" />
+    <Compile Include="AmMessengerContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

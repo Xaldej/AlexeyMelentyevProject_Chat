@@ -20,14 +20,14 @@ namespace AlexeyMelentyev_chat_project
 
         ClientSettings()
         {
-            Port = 8888;
             Ip = "127.0.0.1";
+            Port = 8888;            
         }
 
-        public ClientSettings(int port, string ip)
+        public ClientSettings(string ip, int port)
         {
-            Port = port;
             Ip = ip;
+            Port = port;
         }
     }
 }

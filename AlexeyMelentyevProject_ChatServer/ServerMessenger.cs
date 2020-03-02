@@ -15,6 +15,10 @@ namespace AlexeyMelentyevProject_ChatServer
 
         NetworkStream Stream { get; set; }
 
+        public bool IsUserLoggedIn { get; set; }
+
+        public Action<string> UserLoginIsGotten;
+
         ServerMessenger()
         {
 
@@ -27,7 +31,7 @@ namespace AlexeyMelentyevProject_ChatServer
         }
 
         public void ListenMessages()
-        {
+        {   
             using (Stream = TcpClient.GetStream())
             {
                 byte[] data = new byte[TcpClient.ReceiveBufferSize];
@@ -45,7 +49,14 @@ namespace AlexeyMelentyevProject_ChatServer
 
                     string message = builder.ToString();
 
-                    SendMessage(message, new Guid());
+                    if(IsUserLoggedIn)
+                    {
+                        SendMessage(message, new Guid());
+                    }
+                    else
+                    {
+                        UserLoginIsGotten(message);
+                    }
                 }
             }
         }
@@ -56,7 +67,7 @@ namespace AlexeyMelentyevProject_ChatServer
             var mes2 = message.ToUpper();
             data = Encoding.Unicode.GetBytes(mes2);
 
-            var messengerToSend = GetClientToSend(contactId);
+            var clientToSend = GetClientToSend(contactId);
 
             Stream.Write(data, 0, data.Length);
         }

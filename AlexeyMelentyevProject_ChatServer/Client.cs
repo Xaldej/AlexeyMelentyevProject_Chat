@@ -1,4 +1,5 @@
-﻿using AlexeyMelentyevProject_ChatServer.Data.Entities;
+﻿using AlexeyMelentyevProject_ChatServer.Data;
+using AlexeyMelentyevProject_ChatServer.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace AlexeyMelentyevProject_ChatServer
     public class Client
     {
         User User { get; set; }
+
         ServerMessenger Messenger { get; set; }
 
         List<Client> ConnectedClients { get; set; }
@@ -25,29 +27,53 @@ namespace AlexeyMelentyevProject_ChatServer
         {
             ConnectedClients = connectedClients;
             Messenger = new ServerMessenger(tcpClient, ConnectedClients);
+            Messenger.UserLoginIsGotten += InitializeUser;
         }
 
         public void Process()
         {
-            try
-            {
-                InitializeUser();
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine();
-                var errorMessage = "Login problems. Try to reconnect\n" + "Detailed error: " + e.Message;
-                Messenger.SendMessage(errorMessage, User.Guid);
-                ConnectedClients.Remove(this);
-            }
-
             var thread = new Thread(new ThreadStart(Messenger.ListenMessages));
             thread.Start();
         }
 
-        private void InitializeUser()
+        private void InitializeUser(string userLogin)
+        {   
+            try
+            {
+                GetUserFromDB(userLogin);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("User is not logged in");
+                var errorMessage = "Login problems. Try to reconnect\n" + "Detailed error: " + e.Message;
+                Messenger.SendMessage(errorMessage, User.Id);
+                ConnectedClients.Remove(this);
+            }
+        }
+
+        private void GetUserFromDB(string userLogin)
         {
-            //throw new NotImplementedException();
+            using (var context = new AmMessengerContext())
+            {
+                var user = context.Users.Where(u => u.Login == userLogin).FirstOrDefault();
+
+                if(user == null)
+                {
+                    user = new User()
+                    {
+                        Id = Guid.NewGuid(),
+                        Login = userLogin
+                    };
+
+                    context.Users.Add(user);
+
+                    context.SaveChanges();
+                }
+
+                User = user;
+
+                Messenger.IsUserLoggedIn = true;
+            }
         }
     }
 }

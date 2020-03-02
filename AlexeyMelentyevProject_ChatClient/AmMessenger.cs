@@ -15,7 +15,7 @@ namespace AlexeyMelentyev_chat_project
 
         public ClientSettings ClientSettings { get; set; }
 
-        public string UserName { get; }
+        public string UserLogin { get; }
 
         NetworkStream Stream { get; set; }
 
@@ -25,10 +25,10 @@ namespace AlexeyMelentyev_chat_project
         {
         }
 
-        public AmMessenger(ClientSettings clientSettings, string userName)
+        public AmMessenger(ClientSettings clientSettings, string userLogin)
         {
             ClientSettings = clientSettings;
-            UserName = userName;
+            UserLogin = userLogin;
         }
 
         public void ListenMessages()
@@ -59,7 +59,7 @@ namespace AlexeyMelentyev_chat_project
 
             using (Stream = TcpClient.GetStream())
             {
-                SendLogin();
+                InitializeUser();
 
                 while (true)
                 {
@@ -68,9 +68,17 @@ namespace AlexeyMelentyev_chat_project
             }
         }
 
-        private void SendLogin()
+        private void InitializeUser()
         {
-            //throw new NotImplementedException();
+            SendUserLogin();
+
+            //GetContactList(); TO DO
+        }
+
+        private void SendUserLogin()
+        {
+            byte[] data = Encoding.Unicode.GetBytes(UserLogin);
+            Stream.Write(data, 0, data.Length);
         }
 
         private void Connect()

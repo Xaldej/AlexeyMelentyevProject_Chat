@@ -44,16 +44,16 @@ namespace AlexeyMelentyev_chat_project.Windows
 
         private void LoginEntered()
         {
-            string userName = string.Empty;
+            string userLogin = string.Empty;
 
-            userName = Login_textBox.Text;
+            userLogin = Login_textBox.Text;
 
-            if (userName == string.Empty)
+            if (userLogin == string.Empty)
             {
                 return;
             }
 
-            LoginIsEntered(userName);
+            LoginIsEntered(userLogin);
 
             isClosedByUser = false;
 

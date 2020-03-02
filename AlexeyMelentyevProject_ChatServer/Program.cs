@@ -9,11 +9,9 @@ namespace AlexeyMelentyevProject_ChatServer
 {
     class Program
     {
-        const int port = 8888;
-
         static void Main(string[] args)
         {
-            var tcpServer = new TcpServer(8888, "127.0.0.1");
+            var tcpServer = new TcpServer("127.0.0.1", 8888);
             tcpServer.StartServer();
         }
     }

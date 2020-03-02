@@ -15,8 +15,6 @@ namespace AlexeyMelentyev_chat_project.Windows
     {
         private AmMessenger Messenger { get; set; }
 
-        public string UserName { get; set; }
-
         public AM_Chat()
         {
             InitializeComponent();
@@ -31,24 +29,18 @@ namespace AlexeyMelentyev_chat_project.Windows
         {
             var loginForm = new LoginForm();
 
-            loginForm.LoginIsEntered += GetUserName;
+            loginForm.LoginIsEntered += CreateMessenger;
 
             loginForm.ShowDialog();
         }
 
-        private void CreateMessenger()
+        private void CreateMessenger(string userLogin)
         {
-            Messenger = new AmMessenger(new ClientSettings(8888, "127.0.0.1"), UserName);
+            Messenger = new AmMessenger(new ClientSettings("127.0.0.1", 8888), userLogin);
             Messenger.MessageIsGotten += ShowGottenMessage;
+
             var thread = new Thread(Messenger.Process);
             thread.Start();
-        }
-
-        void GetUserName(string name)
-        {
-            UserName = name;
-
-            CreateMessenger();
         }
 
         private void InputMessage_textBox_KeyDown(object sender, KeyEventArgs e)

@@ -8,13 +8,14 @@ using System.Threading.Tasks;
 
 namespace AlexeyMelentyevProject_ChatServer.Data.Entities
 {
-    public class User : BaseEntity
+    public class ContactRelationship : BaseEntity
     {
-        [Required]
-        [MaxLength(255)]
-        [Index(IsUnique = true)]
-        public string Login { get; set; }
+        public User User { get; set; }
 
-        public List<User> ContactRelationships { get; set; }
+        public Guid UserId { get; set; }
+        
+        public User Contact { get; set; }
+
+        public Guid ContactId { get; set; }
     }
 }
