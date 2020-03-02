@@ -21,8 +21,9 @@ namespace AlexeyMelentyevProject_ChatServer
 
         }
 
-        public Client(TcpClient tcpClient, List<Client> ConnectedClients)
+        public Client(TcpClient tcpClient, List<Client> connectedClients)
         {
+            ConnectedClients = connectedClients;
             Messenger = new ServerMessenger(tcpClient, ConnectedClients);
         }
 
