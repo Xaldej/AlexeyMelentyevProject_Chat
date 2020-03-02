@@ -17,6 +17,8 @@ namespace AlexeyMelentyev_chat_project
 
         NetworkStream Stream { get; set; }
 
+        TcpClient TcpClient { get; set; }
+
         public AmMessenger()
         {
         }
@@ -28,6 +30,18 @@ namespace AlexeyMelentyev_chat_project
 
         public void ListenMessages()
         {
+            byte[] data = new byte[TcpClient.ReceiveBufferSize];
+            StringBuilder builder = new StringBuilder();
+            int bytes = 0;
+            do
+            {
+                bytes = Stream.Read(data, 0, data.Length);
+                builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
+            }
+            while (Stream.DataAvailable);
+
+            var message = builder.ToString();
+            MessageIsGotten(message);
         }
 
         public void SendMessage(string message, Guid contactId)
@@ -38,10 +52,24 @@ namespace AlexeyMelentyev_chat_project
 
         public void Process()
         {
-            var tcpClient = new TcpClient();
+            Connect();
+
+            using (Stream = TcpClient.GetStream())
+            {
+                while (true)
+                {
+                    ListenMessages();
+                }
+
+            }
+        }
+
+        private void Connect()
+        {
+            TcpClient = new TcpClient();
             try
             {
-                tcpClient.Connect(ClientSettings.EndPoint);
+                TcpClient.Connect(ClientSettings.EndPoint);
             }
             catch
             {
@@ -50,29 +78,6 @@ namespace AlexeyMelentyev_chat_project
                 MessageBox.Show(message, caption);
                 Application.Exit();
             }
-            
-
-            using (Stream = tcpClient.GetStream())
-            {
-                while(true)
-                {
-                    byte[] data = new byte[tcpClient.ReceiveBufferSize];
-                    StringBuilder builder = new StringBuilder();
-                    int bytes = 0;
-                    do
-                    {
-                        bytes = Stream.Read(data, 0, data.Length);
-                        builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
-                    }
-                    while (Stream.DataAvailable);
-
-                    var message = builder.ToString();
-                    MessageIsGotten(message);
-                }
-                
-            }
-
-                
         }
     }
 }
