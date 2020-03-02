@@ -64,7 +64,7 @@ namespace AlexeyMelentyev_chat_project.Windows
                 ShowMessage(userInput);
                 try
                 {
-                    Messenger.SendMessage(userInput, "temp");
+                    Messenger.SendMessage(userInput, new Guid());
                 }
                 catch
                 {

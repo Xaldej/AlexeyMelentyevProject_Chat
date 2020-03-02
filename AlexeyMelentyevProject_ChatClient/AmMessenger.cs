@@ -30,7 +30,7 @@ namespace AlexeyMelentyev_chat_project
         {
         }
 
-        public void SendMessage(string message, string contactName)
+        public void SendMessage(string message, Guid contactId)
         {   
             byte[] data = Encoding.Unicode.GetBytes(message);
             Stream.Write(data, 0, data.Length);
@@ -38,10 +38,10 @@ namespace AlexeyMelentyev_chat_project
 
         public void Process()
         {
-            var client = new TcpClient();
+            var tcpClient = new TcpClient();
             try
             {
-                client.Connect(ClientSettings.EndPoint);
+                tcpClient.Connect(ClientSettings.EndPoint);
             }
             catch
             {
@@ -52,11 +52,11 @@ namespace AlexeyMelentyev_chat_project
             }
             
 
-            using (Stream = client.GetStream())
+            using (Stream = tcpClient.GetStream())
             {
                 while(true)
                 {
-                    byte[] data = new byte[client.ReceiveBufferSize];
+                    byte[] data = new byte[tcpClient.ReceiveBufferSize];
                     StringBuilder builder = new StringBuilder();
                     int bytes = 0;
                     do

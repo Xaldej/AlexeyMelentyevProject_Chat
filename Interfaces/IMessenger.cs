@@ -10,6 +10,6 @@ namespace Interfaces
     {
         void ListenMessages();
 
-        void SendMessage(string message, string contactName);
+        void SendMessage(string message, Guid contactId);
     }
 }

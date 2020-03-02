@@ -12,7 +12,9 @@ namespace AlexeyMelentyevProject_ChatServer
     {
         public List<ServerMessenger> ConnectedClients { get; set; }
 
-        public TcpClient TcpListener { get; set; }
+        public TcpClient TcpClient { get; set; }
+
+        NetworkStream Stream { get; set; }
 
         ServerMessenger()
         {
@@ -21,15 +23,15 @@ namespace AlexeyMelentyevProject_ChatServer
 
         public ServerMessenger(TcpClient tcpClient, List<ServerMessenger> connectedClients)
         {
-            TcpListener = tcpClient;
+            TcpClient = tcpClient;
             ConnectedClients = connectedClients;
         }
 
         public void ListenMessages()
         {
-            using (var stream = TcpListener.GetStream())
+            using (Stream = TcpClient.GetStream())
             {
-                byte[] data = new byte[64];
+                byte[] data = new byte[TcpClient.ReceiveBufferSize];
                 while (true)
                 {
                     
@@ -37,27 +39,30 @@ namespace AlexeyMelentyevProject_ChatServer
                     int bytes = 0;
                     do
                     {
-                        bytes = stream.Read(data, 0, data.Length);
+                        bytes = Stream.Read(data, 0, data.Length);
                         builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
                     }
-                    while (stream.DataAvailable);
+                    while (Stream.DataAvailable);
 
                     string message = builder.ToString();
 
-                    SendMessage(message, "temp");
-
-                    var mes2 = message.ToUpper();
-                    data = Encoding.Unicode.GetBytes(mes2);
-                    stream.Write(data, 0, data.Length);
+                    SendMessage(message, new Guid());
                 }
             }
         }
 
-        public void SendMessage(string message, string contactName)
+        public void SendMessage(string message, Guid contactId)
         {
+            byte[] data = new byte[TcpClient.ReceiveBufferSize];
+            var mes2 = message.ToUpper();
+            data = Encoding.Unicode.GetBytes(mes2);
+
+            var messengerToSend = GetClientToSend(contactId);
+
+            Stream.Write(data, 0, data.Length);
         }
 
-        private ServerMessenger GetClientToSend(string contactName)
+        private ServerMessenger GetClientToSend(Guid contactId)
         {
             //TO DO
 
