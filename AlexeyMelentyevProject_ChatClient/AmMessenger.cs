@@ -60,7 +60,6 @@ namespace AlexeyMelentyev_chat_project
                 {
                     ListenMessages();
                 }
-
             }
         }
 

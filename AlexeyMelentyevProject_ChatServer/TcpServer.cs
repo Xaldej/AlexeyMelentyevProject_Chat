@@ -14,7 +14,7 @@ namespace AlexeyMelentyevProject_ChatServer
         public int Port { get; set; }
         public string Ip { get; set; }
 
-        public List<ServerMessenger> ConnectedClients { get; set; }
+        public List<Client> ConnectedClients { get; set; }
 
         public ServerMessenger Messenger { get; set; }
 
@@ -29,7 +29,7 @@ namespace AlexeyMelentyevProject_ChatServer
             Port = port;
             Ip = ip;
 
-            ConnectedClients = new List<ServerMessenger>();
+            ConnectedClients = new List<Client>();
         }
 
         public void StartServer()
@@ -49,13 +49,8 @@ namespace AlexeyMelentyevProject_ChatServer
                 {
                     TcpClient tcpClient = server.AcceptTcpClient();
 
-                    var client = new ServerMessenger(tcpClient, ConnectedClients);
-
-                    Console.WriteLine("client is added");
-                    ConnectedClients.Add(client);
-
-                    var thread = new Thread(new ThreadStart(client.ListenMessages));
-                    thread.Start();
+                    // async?
+                    AddClient(tcpClient);
                 }
             }
             catch (Exception e)
@@ -69,6 +64,14 @@ namespace AlexeyMelentyevProject_ChatServer
                     server.Stop();
                 }
             }
+        }
+
+        private void AddClient(TcpClient tcpClient)
+        {
+            var client = new Client(tcpClient, ConnectedClients);
+            ConnectedClients.Add(client);
+            client.Process();
+            Console.WriteLine("client is added");
         }
     }
 }

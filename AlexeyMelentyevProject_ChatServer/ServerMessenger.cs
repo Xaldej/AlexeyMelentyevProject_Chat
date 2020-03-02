@@ -4,13 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace AlexeyMelentyevProject_ChatServer
 {
     public class ServerMessenger : IMessenger
     {
-        public List<ServerMessenger> ConnectedClients { get; set; }
+        public List<Client> ConnectedClients { get; set; }
 
         public TcpClient TcpClient { get; set; }
 
@@ -21,7 +20,7 @@ namespace AlexeyMelentyevProject_ChatServer
 
         }
 
-        public ServerMessenger(TcpClient tcpClient, List<ServerMessenger> connectedClients)
+        public ServerMessenger(TcpClient tcpClient, List<Client> connectedClients)
         {
             TcpClient = tcpClient;
             ConnectedClients = connectedClients;
@@ -62,7 +61,7 @@ namespace AlexeyMelentyevProject_ChatServer
             Stream.Write(data, 0, data.Length);
         }
 
-        private ServerMessenger GetClientToSend(Guid contactId)
+        private Client GetClientToSend(Guid contactId)
         {
             //TO DO
 

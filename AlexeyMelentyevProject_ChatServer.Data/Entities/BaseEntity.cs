@@ -8,6 +8,6 @@ namespace AlexeyMelentyevProject_ChatServer.Data.Entities
 {
     public abstract class BaseEntity
     {
-        public Guid guid { get; set; }
+        public Guid Guid { get; set; }
     }
 }
