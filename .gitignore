@@ -69,6 +69,11 @@ gitignore/VisualStudio.gitignore
 # Mono auto generated files
 mono_crash.*
 
+#my
+.vs/
+package/
+
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
