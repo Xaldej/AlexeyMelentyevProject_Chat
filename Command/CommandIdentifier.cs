@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AlexeyMelentyevProject_ChatServer.Commands
+namespace Commands
 {
     public static class CommandIdentifier
     {
@@ -12,7 +12,7 @@ namespace AlexeyMelentyevProject_ChatServer.Commands
         {
             var result = false;
 
-            if(command[0] == '/')
+            if (command[0] == '/')
             {
                 result = true;
             }

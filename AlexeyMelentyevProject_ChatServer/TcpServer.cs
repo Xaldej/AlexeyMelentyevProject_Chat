@@ -71,7 +71,7 @@ namespace AlexeyMelentyevProject_ChatServer
             var client = new Client(tcpClient, ConnectedClients);
             ConnectedClients.Add(client);
             client.Process();
-            Console.WriteLine("client is added");
+            Console.WriteLine("client is connected");
         }
     }
 }

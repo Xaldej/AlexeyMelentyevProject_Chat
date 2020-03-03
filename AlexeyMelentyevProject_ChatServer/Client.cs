@@ -1,5 +1,6 @@
 ﻿using AlexeyMelentyevProject_ChatServer.Commands;
 using AlexeyMelentyevProject_ChatServer.Data.Entities;
+using Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,7 +45,7 @@ namespace AlexeyMelentyevProject_ChatServer
 
             if(commandsToExecute.Count()==0)
             {
-                Messenger.SendErrorToCurrentUser("Unknown command");
+                Messenger.SendMessageToCurrentUser("Unknown command" + commandAndData.Command);
                 return;
             }
 

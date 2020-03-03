@@ -1,4 +1,4 @@
-﻿using AlexeyMelentyevProject_ChatServer.Commands;
+﻿using Commands;
 using Interfaces;
 using System;
 using System.Collections.Generic;
@@ -36,15 +36,26 @@ namespace AlexeyMelentyevProject_ChatServer
                 byte[] data = new byte[TcpClient.ReceiveBufferSize];
                 while (true)
                 {
-                    
                     StringBuilder builder = new StringBuilder();
                     int bytes = 0;
-                    do
-                    {
-                        bytes = Stream.Read(data, 0, data.Length);
-                        builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
+
+                    try
+                    {   
+                        do
+                        {
+                            bytes = Stream.Read(data, 0, data.Length);
+                            builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
+                        }
+                        while (Stream.DataAvailable);
                     }
-                    while (Stream.DataAvailable);
+                    catch
+                    {
+                        var client = ConnectedClients.Where(c => c.Messenger.Equals(this)).FirstOrDefault();
+                        ConnectedClients.Remove(client);
+
+                        break;
+                    }
+                    
 
                     string message = builder.ToString();
 
@@ -61,10 +72,10 @@ namespace AlexeyMelentyevProject_ChatServer
             }
         }
 
-        public void SendErrorToCurrentUser(string error)
+        public void SendMessageToCurrentUser(string message)
         {
             byte[] data = new byte[TcpClient.ReceiveBufferSize];
-            var mes2 = error.ToUpper();
+            var mes2 = message.ToUpper();
             data = Encoding.Unicode.GetBytes(mes2);
 
             Stream.Write(data, 0, data.Length);

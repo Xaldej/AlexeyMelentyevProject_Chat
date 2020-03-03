@@ -1,4 +1,7 @@
-﻿using Interfaces;
+﻿
+using AlexeyMelentyev_chat_project.Commands;
+using Commands;
+using Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +24,8 @@ namespace AlexeyMelentyev_chat_project
 
         TcpClient TcpClient { get; set; }
 
+        List<Command> Commands { get; }
+
         public AmMessenger()
         {
         }
@@ -29,6 +34,11 @@ namespace AlexeyMelentyev_chat_project
         {
             ClientSettings = clientSettings;
             UserLogin = userLogin;
+
+            Commands = new List<Command>()
+            {
+                new CorrectLogin(),
+            };
         }
 
         public void ListenMessages()
@@ -36,15 +46,45 @@ namespace AlexeyMelentyev_chat_project
             byte[] data = new byte[TcpClient.ReceiveBufferSize];
             StringBuilder builder = new StringBuilder();
             int bytes = 0;
-            do
+            try
             {
-                bytes = Stream.Read(data, 0, data.Length);
-                builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
+                do
+                {
+                    bytes = Stream.Read(data, 0, data.Length);
+                    builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
+                }
+                while (Stream.DataAvailable);
             }
-            while (Stream.DataAvailable);
+            catch
+            {
+                string errorMessage = "Connection lost. Try to restart a messenger";
+                string caption = "Error";
+                MessageBox.Show(errorMessage, caption);
+            }
+            
 
             var message = builder.ToString();
-            MessageIsGotten(message);
+
+            if (CommandIdentifier.IsMessageACommand(message))
+            {
+                ExecuteCommand(message);
+            }
+            else
+            {
+                MessageIsGotten(message);
+            }
+        }
+
+        private void ExecuteCommand(string message)
+        {
+            var commandAndData = CommandIdentifier.GetCommandAndDataFromMessage(message);
+
+            var commandsToExecute = Commands.Where(c => c.CheckIsCalled(commandAndData.Command));
+
+            foreach (var command in commandsToExecute)
+            {
+                command.Execute(this, commandAndData.Data);
+            }
         }
 
         public void SendMessage(string message, Guid contactId)
@@ -71,15 +111,44 @@ namespace AlexeyMelentyev_chat_project
         private void InitializeUser()
         {
             SendUserLogin();
+        }
 
-            //GetContactList(); TO DO
+        public void GetContactList()
+        {
+            var command = "/getcontacts:" + UserLogin;
+            try
+            {
+                SendCommand(command);
+            }
+            catch
+            {
+                string errorMessage = "Cannot get contact list. Try to restart a messenger";
+                string caption = "Error";
+                MessageBox.Show(errorMessage, caption);
+            }
+
+        }
+
+        private void SendCommand(string command)
+        {
+            byte[] data = Encoding.Unicode.GetBytes(command);
+            Stream.Write(data, 0, data.Length);
         }
 
         private void SendUserLogin()
         {
-            var command = "/InitializeUser:" + UserLogin;
-            byte[] data = Encoding.Unicode.GetBytes(command);
-            Stream.Write(data, 0, data.Length);
+            var command = "/initializeuser:" + UserLogin;
+            try
+            {
+                SendCommand(command);
+            }
+            catch
+            {
+                string message = "Cannot initialize the user. App will be closed";
+                string caption = "Error";
+                MessageBox.Show(message, caption);
+                Application.Exit();
+            }
         }
 
         private void Connect()

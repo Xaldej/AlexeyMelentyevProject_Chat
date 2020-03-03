@@ -48,6 +48,8 @@
   <ItemGroup>
     <Compile Include="AmMessenger.cs" />
     <Compile Include="ClientSettings.cs" />
+    <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\CorrectLogin.cs" />
     <Compile Include="Windows\AM_Chat.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,6 +102,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Command\Commands.csproj">
+      <Project>{9cb0010f-eaef-4364-8918-ad25c012a7e0}</Project>
+      <Name>Commands</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Interfaces\Interfaces.csproj">
       <Project>{0ceeac92-95d4-4f4c-8c16-76e514d50ca9}</Project>
       <Name>Interfaces</Name>

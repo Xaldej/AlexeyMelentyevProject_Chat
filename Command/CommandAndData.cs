@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AlexeyMelentyevProject_ChatServer.Commands
+namespace Commands
 {
     public struct CommandAndData
     {

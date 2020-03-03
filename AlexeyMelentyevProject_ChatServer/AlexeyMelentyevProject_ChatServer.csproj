@@ -55,8 +55,6 @@
   <ItemGroup>
     <Compile Include="Client.cs" />
     <Compile Include="Commands\Command.cs" />
-    <Compile Include="Commands\CommandAndData.cs" />
-    <Compile Include="Commands\CommandIdentifier.cs" />
     <Compile Include="Commands\InitializeUser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -71,6 +69,10 @@
     <ProjectReference Include="..\AlexeyMelentyevProject_ChatServer.Data\AlexeyMelentyevProject_ChatServer.Data.csproj">
       <Project>{8c3550ac-7528-4ae3-a2db-f2782503ea65}</Project>
       <Name>AlexeyMelentyevProject_ChatServer.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Command\Commands.csproj">
+      <Project>{9cb0010f-eaef-4364-8918-ad25c012a7e0}</Project>
+      <Name>Commands</Name>
     </ProjectReference>
     <ProjectReference Include="..\Interfaces\Interfaces.csproj">
       <Project>{0ceeac92-95d4-4f4c-8c16-76e514d50ca9}</Project>

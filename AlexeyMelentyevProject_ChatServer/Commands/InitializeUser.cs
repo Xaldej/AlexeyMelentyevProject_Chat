@@ -19,12 +19,13 @@ namespace AlexeyMelentyevProject_ChatServer.Commands
             try
             {
                 GetUserFromDB(user, userName);
+                client.Messenger.SendMessageToCurrentUser("/correctlogin: ");
             }
             catch (Exception e)
             {
                 Console.WriteLine("User is not logged in");
                 var errorMessage = "Login problems. Try to reconnect\n" + "Detailed error: " + e.Message;
-                client.Messenger.SendErrorToCurrentUser(errorMessage);
+                client.Messenger.SendMessageToCurrentUser(errorMessage);
                 client.ConnectedClients.Remove(client);
             }
         }
@@ -46,6 +47,12 @@ namespace AlexeyMelentyevProject_ChatServer.Commands
                     context.Users.Add(userFromDb);
 
                     context.SaveChanges();
+
+                    Console.WriteLine("User added to DB");
+                }
+                else
+                {
+                    Console.WriteLine("User is got from DB");
                 }
 
                 user = userFromDb;
