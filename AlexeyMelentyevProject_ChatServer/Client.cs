@@ -1,4 +1,4 @@
-﻿using AlexeyMelentyevProject_ChatServer.Data;
+﻿using AlexeyMelentyevProject_ChatServer.Commands;
 using AlexeyMelentyevProject_ChatServer.Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -6,28 +6,52 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace AlexeyMelentyevProject_ChatServer
 {
     public class Client
     {
-        User User { get; set; }
+        public User User { get; set; }
 
-        ServerMessenger Messenger { get; set; }
+        public ServerMessenger Messenger { get; set; }
 
-        List<Client> ConnectedClients { get; set; }
+        public List<Client> ConnectedClients { get; set; }
+
+        public List<Command> Commands { get; }
 
         Client()
         {
-
+            
         }
 
         public Client(TcpClient tcpClient, List<Client> connectedClients)
         {
             ConnectedClients = connectedClients;
             Messenger = new ServerMessenger(tcpClient, ConnectedClients);
-            Messenger.UserLoginIsGotten += InitializeUser;
+            Messenger.NewCommandGotten += OnGetCommand;
+
+            Commands = new List<Command>()
+            {
+                new InitializeUser()
+            };
+        }
+
+        private void OnGetCommand(string message)
+        {
+            var commandAndData = CommandIdentifier.GetCommandAndDataFromMessage(message);
+
+            var commandsToExecute = Commands.Where(c => c.CheckIsCalled(commandAndData.Command));
+
+            if(commandsToExecute.Count()==0)
+            {
+                Messenger.SendErrorToCurrentUser("Unknown command");
+                return;
+            }
+
+            foreach (var command in commandsToExecute)
+            {
+                command.Execute(this, commandAndData.Data);
+            }
         }
 
         public void Process()
@@ -36,44 +60,6 @@ namespace AlexeyMelentyevProject_ChatServer
             thread.Start();
         }
 
-        private void InitializeUser(string userLogin)
-        {   
-            try
-            {
-                GetUserFromDB(userLogin);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("User is not logged in");
-                var errorMessage = "Login problems. Try to reconnect\n" + "Detailed error: " + e.Message;
-                Messenger.SendErrorToCurrentUser(errorMessage);
-                ConnectedClients.Remove(this);
-            }
-        }
-
-        private void GetUserFromDB(string userLogin)
-        {
-            using (var context = new AmMessengerContext())
-            {
-                var user = context.Users.Where(u => u.Login == userLogin).FirstOrDefault();
-
-                if(user == null)
-                {
-                    user = new User()
-                    {
-                        Id = Guid.NewGuid(),
-                        Login = userLogin
-                    };
-
-                    context.Users.Add(user);
-
-                    context.SaveChanges();
-                }
-
-                User = user;
-
-                Messenger.IsUserLoggedIn = true;
-            }
-        }
+        
     }
 }

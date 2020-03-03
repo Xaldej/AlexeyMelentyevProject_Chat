@@ -77,7 +77,8 @@ namespace AlexeyMelentyev_chat_project
 
         private void SendUserLogin()
         {
-            byte[] data = Encoding.Unicode.GetBytes(UserLogin);
+            var command = "/InitializeUser:" + UserLogin;
+            byte[] data = Encoding.Unicode.GetBytes(command);
             Stream.Write(data, 0, data.Length);
         }
 

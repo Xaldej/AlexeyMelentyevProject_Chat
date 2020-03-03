@@ -1,4 +1,5 @@
-﻿using Interfaces;
+﻿using AlexeyMelentyevProject_ChatServer.Commands;
+using Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,7 @@ namespace AlexeyMelentyevProject_ChatServer
 
         NetworkStream Stream { get; set; }
 
-        public bool IsUserLoggedIn { get; set; }
-
-        public Action<string> UserLoginIsGotten;
+        public Action<string> NewCommandGotten;
 
         ServerMessenger()
         {
@@ -49,13 +48,14 @@ namespace AlexeyMelentyevProject_ChatServer
 
                     string message = builder.ToString();
 
-                    if(IsUserLoggedIn)
+                    if(CommandIdentifier.IsMessageACommand(message))
                     {
-                        SendMessage(message, new Guid());
+                        NewCommandGotten(message);
+                        
                     }
                     else
                     {
-                        UserLoginIsGotten(message);
+                        SendMessage(message, new Guid());
                     }
                 }
             }
