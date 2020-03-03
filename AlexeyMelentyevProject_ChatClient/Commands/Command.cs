@@ -10,17 +10,15 @@ namespace AlexeyMelentyev_chat_project.Commands
     {
         public abstract string Name { get; }
 
-        public bool CheckIsCalled(string command)
-        {
-            //    var
-            //     => command.ToLower().Contains("/" + Name.ToLower());
-            var commandToLower = command.ToLower();
-            var nameToLower = "/" + Name.ToLower();
+        public bool CheckIsCalled(string command) => command.ToLower().Contains("/" + Name.ToLower());
+        //{
+        //    var commandToLower = command.ToLower();
+        //    var nameToLower = "/" + Name.ToLower();
 
-            var isContain = commandToLower.Contains(nameToLower);
+        //    var isContain = commandToLower.Contains(nameToLower);
 
-            return isContain;
-        }
+        //    return isContain;
+        //}
 
         public abstract void Execute(AmMessenger messenger, string data);
     }

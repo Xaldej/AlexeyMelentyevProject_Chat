@@ -23,7 +23,7 @@ namespace AlexeyMelentyev_chat_project
 
         NetworkStream Stream { get; set; }
 
-        TcpClient TcpClient { get; set; }
+        public TcpClient TcpClient { get; set; }
 
         public List<Command> Commands { get; }
 
@@ -42,6 +42,8 @@ namespace AlexeyMelentyev_chat_project
 
 
                 new AddContact(),
+                new Connect(),
+                new Initializeuser(),
                 new GetConactList(),
             };
         }
@@ -72,7 +74,7 @@ namespace AlexeyMelentyev_chat_project
 
             if (CommandIdentifier.IsMessageACommand(message))
             {
-                ExecuteCommand(message);
+                ExecuteCommands(message);
             }
             else
             {
@@ -80,7 +82,7 @@ namespace AlexeyMelentyev_chat_project
             }
         }
 
-        public void ExecuteCommand(string message)
+        public void ExecuteCommands(string message)
         {
             var commandAndData = CommandIdentifier.GetCommandAndDataFromMessage(message);
 
@@ -100,11 +102,11 @@ namespace AlexeyMelentyev_chat_project
 
         public void Process()
         {
-            Connect();
+            ExecuteCommands("/Connect: ");
 
             using (Stream = TcpClient.GetStream())
             {
-                InitializeUser();
+                ExecuteCommands("/Initializeuser: ");
 
                 while (true)
                 {
@@ -113,53 +115,10 @@ namespace AlexeyMelentyev_chat_project
             }
         }
 
-        private void InitializeUser()
-        {
-            SendUserLogin();
-        }
-
-        public void GetContactList()
-        {
-            
-
-        }
-
         public void SendCommand(string command)
         {
             byte[] data = Encoding.Unicode.GetBytes(command);
             Stream.Write(data, 0, data.Length);
-        }
-
-        private void SendUserLogin()
-        {
-            var command = "/initializeuser:" + UserLogin;
-            try
-            {
-                SendCommand(command);
-            }
-            catch
-            {
-                string message = "Cannot initialize the user. App will be closed";
-                string caption = "Error";
-                MessageBox.Show(message, caption);
-                Application.Exit();
-            }
-        }
-
-        private void Connect()
-        {
-            TcpClient = new TcpClient();
-            try
-            {
-                TcpClient.Connect(ClientSettings.EndPoint);
-            }
-            catch
-            {
-                string message = "Cannot connect to server";
-                string caption = "Error";
-                MessageBox.Show(message, caption);
-                Application.Exit();
-            }
         }
     }
 }

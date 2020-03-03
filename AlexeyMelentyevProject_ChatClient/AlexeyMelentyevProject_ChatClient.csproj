@@ -51,7 +51,9 @@
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\FromServer\CorrectLogin.cs" />
     <Compile Include="Commands\ToServer\AddContact.cs" />
+    <Compile Include="Commands\ToServer\Connect.cs" />
     <Compile Include="Commands\ToServer\GetConactList.cs" />
+    <Compile Include="Commands\ToServer\Initializeuser.cs" />
     <Compile Include="Windows\AddContactForm.cs">
       <SubType>Form</SubType>
     </Compile>

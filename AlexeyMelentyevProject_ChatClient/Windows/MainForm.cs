@@ -117,7 +117,7 @@ namespace AlexeyMelentyev_chat_project.Windows
         private void AddContact(string userName)
         {
             var message = "/addcontact:" + userName;
-            Messenger.ExecuteCommand(message);
+            Messenger.ExecuteCommands(message);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace AlexeyMelentyev_chat_project.Commands.FromServer
         public override void Execute(AmMessenger messenger, string data)
         {
             var message = "/getconactlist:" + messenger.UserLogin;
-            messenger.ExecuteCommand(message);
+            messenger.ExecuteCommands(message);
         }
     }
 }
