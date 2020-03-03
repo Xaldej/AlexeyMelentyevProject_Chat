@@ -70,8 +70,8 @@
       <Project>{8c3550ac-7528-4ae3-a2db-f2782503ea65}</Project>
       <Name>AlexeyMelentyevProject_ChatServer.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Command\Commands.csproj">
-      <Project>{9cb0010f-eaef-4364-8918-ad25c012a7e0}</Project>
+    <ProjectReference Include="..\Commands\Commands.csproj">
+      <Project>{a184e004-8684-4937-b3ed-69fd028ca1f7}</Project>
       <Name>Commands</Name>
     </ProjectReference>
     <ProjectReference Include="..\Interfaces\Interfaces.csproj">

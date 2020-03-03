@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interfaces", "Interfaces\In
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlexeyMelentyevProject_ChatServer.Data", "AlexeyMelentyevProject_ChatServer.Data\AlexeyMelentyevProject_ChatServer.Data.csproj", "{8C3550AC-7528-4AE3-A2DB-F2782503EA65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands", "Command\Commands.csproj", "{9CB0010F-EAEF-4364-8918-AD25C012A7E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands", "Commands\Commands.csproj", "{A184E004-8684-4937-B3ED-69FD028CA1F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{8C3550AC-7528-4AE3-A2DB-F2782503EA65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C3550AC-7528-4AE3-A2DB-F2782503EA65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C3550AC-7528-4AE3-A2DB-F2782503EA65}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9CB0010F-EAEF-4364-8918-AD25C012A7E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9CB0010F-EAEF-4364-8918-AD25C012A7E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9CB0010F-EAEF-4364-8918-AD25C012A7E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9CB0010F-EAEF-4364-8918-AD25C012A7E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A184E004-8684-4937-B3ED-69FD028CA1F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A184E004-8684-4937-B3ED-69FD028CA1F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A184E004-8684-4937-B3ED-69FD028CA1F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A184E004-8684-4937-B3ED-69FD028CA1F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
