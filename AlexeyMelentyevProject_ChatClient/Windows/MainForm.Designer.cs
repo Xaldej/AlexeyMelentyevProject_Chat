@@ -1,6 +1,6 @@
 ﻿namespace AlexeyMelentyev_chat_project.Windows
 {
-    partial class AM_Chat
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -94,15 +94,15 @@
             this.AddContact_button.UseVisualStyleBackColor = true;
             this.AddContact_button.Click += new System.EventHandler(this.AddContact_button_Click);
             // 
-            // AM_Chat
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(484, 561);
             this.Controls.Add(this.Contacts_panel);
             this.Controls.Add(this.Chat_panel);
-            this.Name = "AM_Chat";
-            this.Text = "am_chat";
+            this.Name = "MainForm";
+            this.Text = "AmChat";
             this.Load += new System.EventHandler(this.AM_Chat_Load);
             this.Chat_panel.ResumeLayout(false);
             this.Chat_panel.PerformLayout();

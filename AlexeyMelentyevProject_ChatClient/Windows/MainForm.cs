@@ -11,11 +11,11 @@ using System.Windows.Forms;
 
 namespace AlexeyMelentyev_chat_project.Windows
 {
-    public partial class AM_Chat : Form
+    public partial class MainForm : Form
     {
         private AmMessenger Messenger { get; set; }
 
-        public AM_Chat()
+        public MainForm()
         {
             InitializeComponent();
         }
@@ -107,7 +107,17 @@ namespace AlexeyMelentyev_chat_project.Windows
 
         private void AddContact_button_Click(object sender, EventArgs e)
         {
-           
+            var addContactForm = new AddContactForm();
+
+            addContactForm.LoginToAddIsEntered += AddContact;
+
+            addContactForm.ShowDialog();
+        }
+
+        private void AddContact(string userName)
+        {
+            var message = "/addcontact:" + userName;
+            Messenger.ExecuteCommand(message);
         }
     }
 }

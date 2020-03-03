@@ -1,4 +1,6 @@
 ﻿using AlexeyMelentyev_chat_project.Commands;
+using AlexeyMelentyev_chat_project.Commands.FromServer;
+using AlexeyMelentyev_chat_project.Commands.ToServer;
 using Commands;
 using Interfaces;
 using System;
@@ -23,7 +25,7 @@ namespace AlexeyMelentyev_chat_project
 
         TcpClient TcpClient { get; set; }
 
-        List<Command> Commands { get; }
+        public List<Command> Commands { get; }
 
         public AmMessenger()
         {
@@ -37,6 +39,10 @@ namespace AlexeyMelentyev_chat_project
             Commands = new List<Command>()
             {
                 new CorrectLogin(),
+
+
+                new AddContact(),
+                new GetConactList(),
             };
         }
 
@@ -74,7 +80,7 @@ namespace AlexeyMelentyev_chat_project
             }
         }
 
-        private void ExecuteCommand(string message)
+        public void ExecuteCommand(string message)
         {
             var commandAndData = CommandIdentifier.GetCommandAndDataFromMessage(message);
 
@@ -114,21 +120,11 @@ namespace AlexeyMelentyev_chat_project
 
         public void GetContactList()
         {
-            var command = "/getcontacts:" + UserLogin;
-            try
-            {
-                SendCommand(command);
-            }
-            catch
-            {
-                string errorMessage = "Cannot get contact list. Try to restart a messenger";
-                string caption = "Error";
-                MessageBox.Show(errorMessage, caption);
-            }
+            
 
         }
 
-        private void SendCommand(string command)
+        public void SendCommand(string command)
         {
             byte[] data = Encoding.Unicode.GetBytes(command);
             Stream.Write(data, 0, data.Length);

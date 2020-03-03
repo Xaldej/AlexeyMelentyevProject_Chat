@@ -19,7 +19,7 @@ namespace AlexeyMelentyev_chat_project
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new AM_Chat());
+            Application.Run(new MainForm());
         }
     }
 }

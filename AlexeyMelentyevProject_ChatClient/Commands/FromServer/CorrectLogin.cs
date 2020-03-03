@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AlexeyMelentyev_chat_project.Commands
+namespace AlexeyMelentyev_chat_project.Commands.FromServer
 {
     public class CorrectLogin : Command
     {
@@ -12,7 +12,8 @@ namespace AlexeyMelentyev_chat_project.Commands
 
         public override void Execute(AmMessenger messenger, string data)
         {
-            messenger.GetContactList();
+            var message = "/getconactlist:" + messenger.UserLogin;
+            messenger.ExecuteCommand(message);
         }
     }
 }

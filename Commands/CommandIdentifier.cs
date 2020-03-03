@@ -12,6 +12,11 @@ namespace Commands
         {
             var result = false;
 
+            if (command == string.Empty)
+            {
+                return false;
+            }
+
             if (command[0] == '/')
             {
                 result = true;
