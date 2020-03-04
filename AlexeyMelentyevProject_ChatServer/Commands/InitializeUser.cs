@@ -12,21 +12,21 @@ namespace AlexeyMelentyevProject_ChatServer.Commands
     {
         public override string Name => "InitializeUser";
 
-        public override void Execute(Client client, string data)
+        public override void Execute(ServerMessenger messenger, string data)
         {
-            var user = client.User;
+            var user = messenger.User;
             var userName = data;
             try
             {
                 GetUserFromDB(user, userName);
-                client.Messenger.SendMessageToCurrentUser("/correctlogin: ");
+                messenger.SendMessageToCurrentUser("/correctlogin: ");
             }
             catch (Exception e)
             {
                 Console.WriteLine("User is not logged in");
                 var errorMessage = "Login problems. Try to reconnect\n" + "Detailed error: " + e.Message;
-                client.Messenger.SendMessageToCurrentUser(errorMessage);
-                client.ConnectedClients.Remove(client);
+                messenger.SendMessageToCurrentUser(errorMessage);
+                messenger.ConnectedClients.Remove(messenger);
             }
         }
 

@@ -1,4 +1,6 @@
-﻿using Commands;
+﻿using AlexeyMelentyevProject_ChatServer.Commands;
+using AlexeyMelentyevProject_ChatServer.Data.Entities;
+using Commands;
 using Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,23 +12,30 @@ namespace AlexeyMelentyevProject_ChatServer
 {
     public class ServerMessenger : IMessenger
     {
-        public List<Client> ConnectedClients { get; set; }
+        public User User { get; set; }
+
+        public List<ServerMessenger> ConnectedClients { get; set; }
 
         public TcpClient TcpClient { get; set; }
 
         NetworkStream Stream { get; set; }
 
-        public Action<string> NewCommandGotten;
+        public List<Command> Commands { get; }
 
         ServerMessenger()
         {
 
         }
 
-        public ServerMessenger(TcpClient tcpClient, List<Client> connectedClients)
+        public ServerMessenger(TcpClient tcpClient, List<ServerMessenger> connectedClients)
         {
             TcpClient = tcpClient;
             ConnectedClients = connectedClients;
+
+            Commands = new List<Command>()
+            {
+                new InitializeUser()
+            };
         }
 
         public void ListenMessages()
@@ -50,7 +59,7 @@ namespace AlexeyMelentyevProject_ChatServer
                     }
                     catch
                     {
-                        var client = ConnectedClients.Where(c => c.Messenger.Equals(this)).FirstOrDefault();
+                        var client = ConnectedClients.Where(m => m.Equals(this)).FirstOrDefault();
                         ConnectedClients.Remove(client);
 
                         break;
@@ -61,14 +70,31 @@ namespace AlexeyMelentyevProject_ChatServer
 
                     if(CommandIdentifier.IsMessageACommand(message))
                     {
-                        NewCommandGotten(message);
-                        
+                        NewCommandIsGotten(message);
                     }
                     else
                     {
                         SendMessage(message, new Guid());
                     }
                 }
+            }
+        }
+
+        private void NewCommandIsGotten(string message)
+        {
+            var commandAndData = CommandIdentifier.GetCommandAndDataFromMessage(message);
+
+            var commandsToExecute = Commands.Where(c => c.CheckIsCalled(commandAndData.Command));
+
+            if (commandsToExecute.Count() == 0)
+            {
+                SendMessageToCurrentUser("Unknown command" + commandAndData.Command);
+                return;
+            }
+
+            foreach (var command in commandsToExecute)
+            {
+                command.Execute(this, commandAndData.Data);
             }
         }
 
@@ -92,7 +118,7 @@ namespace AlexeyMelentyevProject_ChatServer
             Stream.Write(data, 0, data.Length);
         }
 
-        private Client GetClientToSend(Guid contactId)
+        private ServerMessenger GetClientToSend(Guid contactId)
         {
             //TO DO
 

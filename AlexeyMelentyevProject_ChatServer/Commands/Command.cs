@@ -13,6 +13,6 @@ namespace AlexeyMelentyevProject_ChatServer.Commands
 
         public bool CheckIsCalled(string command) => command.ToLower().Contains("/" + Name.ToLower());
 
-        public abstract void Execute(Client client, string data);
+        public abstract void Execute(ServerMessenger messenger, string data);
     }
 }
