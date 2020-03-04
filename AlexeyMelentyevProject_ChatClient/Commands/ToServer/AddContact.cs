@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Commands;
+using Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +13,7 @@ namespace AlexeyMelentyev_chat_project.Commands.ToServer
     {
         public override string Name => "AddContact";
 
-        public override void Execute(AmMessenger messenger, string data)
+        public override void Execute(IMessenger messenger, string data)
         {
             var command = "/" + Name.ToLower() + ":" + data;
             try

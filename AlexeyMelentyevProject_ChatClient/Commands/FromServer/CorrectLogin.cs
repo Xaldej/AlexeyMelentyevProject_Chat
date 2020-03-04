@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Commands;
+using Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,10 +12,10 @@ namespace AlexeyMelentyev_chat_project.Commands.FromServer
     {
         public override string Name => "CorrectLogin";
 
-        public override void Execute(AmMessenger messenger, string data)
+        public override void Execute(IMessenger messenger, string data)
         {
-            var message = "/getconactlist:" + messenger.UserLogin;
-            messenger.ExecuteCommands(message);
+            var message = "/getconactlist:" + ""; //todo: + User.Login;
+            messenger.SendCommand(message);
         }
     }
 }

@@ -44,5 +44,11 @@
     <Compile Include="IMessenger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AlexeyMelentyevProject_ChatServer.Data\AlexeyMelentyevProject_ChatServer.Data.csproj">
+      <Project>{8c3550ac-7528-4ae3-a2db-f2782503ea65}</Project>
+      <Name>AlexeyMelentyevProject_ChatServer.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

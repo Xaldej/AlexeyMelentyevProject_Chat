@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Commands;
+using Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,13 +15,20 @@ namespace AlexeyMelentyev_chat_project.Commands.ToServer
     {
         public override string Name => "Connect";
 
-        public override void Execute(AmMessenger messenger, string data)
+        public override void Execute(IMessenger messenger, string data)
         {
             var tcpClient = messenger.TcpClient = new TcpClient();
-            var endPoint = messenger.ClientSettings.EndPoint;
+
+            //todo: ger from config
+            var Ip = "127.0.0.1";
+            var Port = 8888;
+
+            IPAddress IpAddr = IPAddress.Parse(Ip);
+            IPEndPoint EndPoint = new IPEndPoint(IpAddr, Port);
+
             try
             {
-                tcpClient.Connect(endPoint);
+                tcpClient.Connect(EndPoint);
             }
             catch
             {

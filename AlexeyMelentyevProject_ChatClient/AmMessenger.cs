@@ -1,6 +1,6 @@
-﻿using AlexeyMelentyev_chat_project.Commands;
-using AlexeyMelentyev_chat_project.Commands.FromServer;
+﻿using AlexeyMelentyev_chat_project.Commands.FromServer;
 using AlexeyMelentyev_chat_project.Commands.ToServer;
+using AlexeyMelentyevProject_ChatServer.Data.Entities;
 using Commands;
 using Interfaces;
 using System;
@@ -17,34 +17,32 @@ namespace AlexeyMelentyev_chat_project
     {
         public Action<string> MessageIsGotten;
 
-        public ClientSettings ClientSettings { get; set; }
-
-        public string UserLogin { get; }
-
         NetworkStream Stream { get; set; }
 
         public TcpClient TcpClient { get; set; }
 
         public List<Command> Commands { get; }
 
+        public User User { get; set; }
+
+        public string UserLogin { get; set; }
+
         public AmMessenger()
         {
         }
 
-        public AmMessenger(ClientSettings clientSettings, string userLogin)
+        public AmMessenger(string userLogin)
         {
-            ClientSettings = clientSettings;
             UserLogin = userLogin;
 
             Commands = new List<Command>()
             {
                 new CorrectLogin(),
 
-
                 new AddContact(),
                 new Connect(),
-                new Initializeuser(),
                 new GetConactList(),
+                new Login(),
             };
         }
 
@@ -67,6 +65,7 @@ namespace AlexeyMelentyev_chat_project
                 string errorMessage = "Connection lost. Try to restart a messenger";
                 string caption = "Error";
                 MessageBox.Show(errorMessage, caption);
+                Application.Exit();
             }
             
 
@@ -102,11 +101,11 @@ namespace AlexeyMelentyev_chat_project
 
         public void Process()
         {
-            ExecuteCommands("/Connect: ");
+            Commands.Where(c => c.CheckIsCalled("/connect")).FirstOrDefault().Execute(this, string.Empty);
 
             using (Stream = TcpClient.GetStream())
             {
-                ExecuteCommands("/Initializeuser: ");
+                ExecuteCommands($"/Login:{UserLogin}");
 
                 while (true)
                 {

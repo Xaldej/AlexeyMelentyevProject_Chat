@@ -1,4 +1,4 @@
-﻿using AlexeyMelentyevProject_ChatServer.Commands;
+﻿using AlexeyMelentyevProject_ChatServer.Commands.FromClient;
 using AlexeyMelentyevProject_ChatServer.Data.Entities;
 using Commands;
 using Interfaces;
@@ -34,7 +34,7 @@ namespace AlexeyMelentyevProject_ChatServer
 
             Commands = new List<Command>()
             {
-                new InitializeUser()
+                new Login()
             };
         }
 
@@ -88,7 +88,7 @@ namespace AlexeyMelentyevProject_ChatServer
 
             if (commandsToExecute.Count() == 0)
             {
-                SendMessageToCurrentUser("Unknown command" + commandAndData.Command);
+                SendCommand("Unknown command" + commandAndData.Command);
                 return;
             }
 
@@ -98,10 +98,10 @@ namespace AlexeyMelentyevProject_ChatServer
             }
         }
 
-        public void SendMessageToCurrentUser(string message)
+        public void SendCommand(string command)
         {
             byte[] data = new byte[TcpClient.ReceiveBufferSize];
-            var mes2 = message.ToUpper();
+            var mes2 = command.ToUpper();
             data = Encoding.Unicode.GetBytes(mes2);
 
             Stream.Write(data, 0, data.Length);

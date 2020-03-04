@@ -1,32 +1,32 @@
-﻿using System;
+﻿using AlexeyMelentyevProject_ChatServer.Data;
+using AlexeyMelentyevProject_ChatServer.Data.Entities;
+using Commands;
+using Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AlexeyMelentyevProject_ChatServer.Data;
-using AlexeyMelentyevProject_ChatServer.Data.Entities;
 
-namespace AlexeyMelentyevProject_ChatServer.Commands
+namespace AlexeyMelentyevProject_ChatServer.Commands.FromClient
 {
-    public class InitializeUser : Command
+    public class Login : Command
     {
-        public override string Name => "InitializeUser";
+        public override string Name => "Login";
 
-        public override void Execute(ServerMessenger messenger, string data)
+        public override void Execute(IMessenger messenger, string data)
         {
-            var user = messenger.User;
             var userName = data;
             try
             {
-                GetUserFromDB(user, userName);
-                messenger.SendMessageToCurrentUser("/correctlogin: ");
+                GetUserFromDB(messenger.User, userName);
+                messenger.SendCommand("/correctlogin: ");
             }
             catch (Exception e)
             {
                 Console.WriteLine("User is not logged in");
                 var errorMessage = "Login problems. Try to reconnect\n" + "Detailed error: " + e.Message;
-                messenger.SendMessageToCurrentUser(errorMessage);
-                messenger.ConnectedClients.Remove(messenger);
+                messenger.SendCommand(errorMessage);
             }
         }
 

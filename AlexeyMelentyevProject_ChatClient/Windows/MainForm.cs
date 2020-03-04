@@ -36,7 +36,7 @@ namespace AlexeyMelentyev_chat_project.Windows
 
         private void CreateMessenger(string userLogin)
         {
-            Messenger = new AmMessenger(new ClientSettings("127.0.0.1", 8888), userLogin);
+            Messenger = new AmMessenger(userLogin);
             Messenger.MessageIsGotten += ShowGottenMessage;
 
             var thread = new Thread(Messenger.Process);
