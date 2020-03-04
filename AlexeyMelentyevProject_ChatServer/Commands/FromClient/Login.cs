@@ -16,11 +16,13 @@ namespace AlexeyMelentyevProject_ChatServer.Commands.FromClient
 
         public override void Execute(IMessenger messenger, string data)
         {
+            var user = messenger.User;
             var userName = data;
             try
             {
-                GetUserFromDB(messenger.User, userName);
-                messenger.SendCommand("/correctlogin: ");
+                user = GetUserFromDB(userName);
+                var id = user.Id;
+                messenger.SendCommand($"/correctlogin:{id}");
             }
             catch (Exception e)
             {
@@ -30,21 +32,23 @@ namespace AlexeyMelentyevProject_ChatServer.Commands.FromClient
             }
         }
 
-        private void GetUserFromDB(User user, string userLogin)
+        private User GetUserFromDB(string userLogin)
         {
+            User user;
+
             using (var context = new AmMessengerContext())
             {
-                var userFromDb = context.Users.Where(u => u.Login == userLogin).FirstOrDefault();
+                user = context.Users.Where(u => u.Login == userLogin).FirstOrDefault();
 
-                if (userFromDb == null)
+                if (user == null)
                 {
-                    userFromDb = new User()
+                    user = new User()
                     {
                         Id = Guid.NewGuid(),
                         Login = userLogin
                     };
 
-                    context.Users.Add(userFromDb);
+                    context.Users.Add(user);
 
                     context.SaveChanges();
 
@@ -54,9 +58,9 @@ namespace AlexeyMelentyevProject_ChatServer.Commands.FromClient
                 {
                     Console.WriteLine("User is got from DB");
                 }
-
-                user = userFromDb;
             }
+
+            return user;
         }
     }
 }

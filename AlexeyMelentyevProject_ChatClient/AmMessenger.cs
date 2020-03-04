@@ -15,17 +15,18 @@ namespace AlexeyMelentyev_chat_project
 {
     public class AmMessenger : IMessenger
     {
-        public Action<string> MessageIsGotten;
-
-        NetworkStream Stream { get; set; }
+        public User User { get; set; }
 
         public TcpClient TcpClient { get; set; }
 
+        public string UserLogin { get; set; }
+
         public List<Command> Commands { get; }
 
-        public User User { get; set; }
+        NetworkStream Stream { get; set; }
 
-        public string UserLogin { get; set; }
+        public Action<string> MessageIsGotten;
+
 
         public AmMessenger()
         {
@@ -67,7 +68,6 @@ namespace AlexeyMelentyev_chat_project
                 MessageBox.Show(errorMessage, caption);
                 Application.Exit();
             }
-            
 
             var message = builder.ToString();
 
