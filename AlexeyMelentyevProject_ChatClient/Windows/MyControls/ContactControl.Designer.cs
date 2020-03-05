@@ -45,11 +45,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Silver;
+            this.BackColor = System.Drawing.Color.Gainsboro;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.ContactLogin_label);
             this.Name = "ContactControl";
             this.Size = new System.Drawing.Size(153, 48);
+            this.Click += new System.EventHandler(this.ContactControl_Click);
             this.ResumeLayout(false);
             this.PerformLayout();
 

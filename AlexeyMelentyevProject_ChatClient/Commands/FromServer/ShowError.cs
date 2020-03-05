@@ -9,13 +9,13 @@ using System.Windows.Forms;
 
 namespace AlexeyMelentyev_chat_project.Commands.FromServer
 {
-    public class ErrorAddingContact : Command
+    public class ShowError : Command
     {
-        public override string Name => "ErrorAddingContact";
+        public override string Name => "ShowError";
 
         public override void Execute(IMessenger messenger, string data)
-        {   
-            MessageBox.Show("Error", data);
+        {
+            MessageBox.Show(data, "Error");
         }
     }
 }

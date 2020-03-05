@@ -25,6 +25,8 @@ namespace AlexeyMelentyev_chat_project
 
         NetworkStream Stream { get; set; }
 
+        public User ChosenUser { get; set; }
+
         public Action<string> MessageIsGotten;
         public Action<List<User>> ContactsAreUpdated;
 
@@ -57,15 +59,13 @@ namespace AlexeyMelentyev_chat_project
                 CorrectAddingContact,
                 CorrectContactList,
                 new CorrectLogin(),
-                new ErrorAddingContact(),
                 new ServerError(),
+                new ShowError(),
 
                 new AddContact(),
                 new Connect(),
                 new GetConactList(),
                 new Login(),
-
-                
             };
         }
 
@@ -116,7 +116,8 @@ namespace AlexeyMelentyev_chat_project
         }
 
         public void SendMessage(string message, Guid contactId)
-        {   
+        {
+            var userToSend = ChosenUser;
             byte[] data = Encoding.Unicode.GetBytes(message);
             Stream.Write(data, 0, data.Length);
         }

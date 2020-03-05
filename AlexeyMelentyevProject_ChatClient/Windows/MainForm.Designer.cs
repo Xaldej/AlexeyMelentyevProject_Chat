@@ -68,6 +68,7 @@
             // ChatHistory_richTextBox
             // 
             this.ChatHistory_richTextBox.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.ChatHistory_richTextBox.Enabled = false;
             this.ChatHistory_richTextBox.Location = new System.Drawing.Point(3, 3);
             this.ChatHistory_richTextBox.Name = "ChatHistory_richTextBox";
             this.ChatHistory_richTextBox.ReadOnly = true;

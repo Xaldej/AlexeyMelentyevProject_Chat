@@ -48,13 +48,32 @@ namespace AlexeyMelentyev_chat_project.Windows
 
         private void UpdateContacts(List<User> contacts)
         {
+            Contacts_panel.Invoke(new Action(() => Contacts_panel.Controls.Clear()));
+
             foreach (var contact in contacts)
             {
-                var contactControl = new ContactControl(contact.Login, contact.Id) { Dock = DockStyle.Top };
+                var contactControl = new ContactControl(contact) { Dock = DockStyle.Top };
+
+                contactControl.ContactChosen += ChangeContact;
 
                 Contacts_panel.Invoke(new Action(() => Contacts_panel.Controls.Add(contactControl)));
-                    
             }
+        }
+
+        private void ChangeContact(ContactControl contactControl)
+        {
+            //TO DO: update history
+            var previousChosenControls = Contacts_panel.Controls.OfType<ContactControl>().Where(c=>c.BackColor == Color.Silver);
+
+            foreach (var control in previousChosenControls)
+            {
+                control.BackColor = Color.Gainsboro;
+            }
+
+            ChatHistory_richTextBox.Enabled = true;
+            contactControl.BackColor = Color.Silver;
+
+            Messenger.ChosenUser = contactControl.User;
         }
 
         private void InputMessage_textBox_KeyDown(object sender, KeyEventArgs e)

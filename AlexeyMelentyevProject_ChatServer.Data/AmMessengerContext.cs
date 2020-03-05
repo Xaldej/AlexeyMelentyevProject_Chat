@@ -10,7 +10,7 @@ namespace AlexeyMelentyevProject_ChatServer.Data
 {
     public class AmMessengerContext : DbContext
     {
-        public AmMessengerContext() : base("AmMessenger3")
+        public AmMessengerContext() : base("AmMessenger")
         {
             Database.SetInitializer(new CreateDatabaseIfNotExists<AmMessengerContext>());
         }

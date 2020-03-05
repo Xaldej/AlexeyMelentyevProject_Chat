@@ -22,7 +22,9 @@ namespace AlexeyMelentyevProject_ChatServer.Commands.FromClient
             }
             catch(Exception e)
             {
-                var errorMessage = "/erroraddingcontact:" + e.Message;
+                var errorMessage = "/showerror:" +
+                    "Error adding contact\n\n" +
+                    "Details:\n" + e.Message;
                 messenger.SendCommand(errorMessage);
             }
             
@@ -39,25 +41,33 @@ namespace AlexeyMelentyevProject_ChatServer.Commands.FromClient
 
                 if (userToAdd == null)
                 {
-                    messenger.SendCommand("/erroraddingcontact:Contact is not found");
+                    messenger.SendCommand("/showerror:Contact is not found");
                 }
                 else
                 {
-                    messenger.UserContacts.Add(userToAdd);
-
-                    var contactRelationship = new ContactRelationship()
+                    if (messenger.UserContacts.Where(u => u.Id == userToAdd.Id).FirstOrDefault() != null)
                     {
-                        Id = Guid.NewGuid(),
-                        UserId = messenger.User.Id,
-                        ContactId = userToAdd.Id,
-                    };
+                        messenger.SendCommand("/showerror:Contact is already in your list");
+                    }
+                    else
+                    {
+                        messenger.UserContacts.Add(userToAdd);
 
-                    context.ContactRelationships.Add(contactRelationship);
+                        var contactRelationship = new ContactRelationship()
+                        {
+                            Id = Guid.NewGuid(),
+                            UserId = messenger.User.Id,
+                            ContactId = userToAdd.Id,
+                        };
 
-                    context.SaveChanges();
+                        context.ContactRelationships.Add(contactRelationship);
 
-                    var command = "/correctaddingcontact:" + UsersJsonParser.OneUserToJson(userToAdd);
-                    messenger.SendCommand(command);
+                        context.SaveChanges();
+
+                        var command = "/correctaddingcontact:" + UsersJsonParser.OneUserToJson(userToAdd);
+                        messenger.SendCommand(command);
+                    }
+                    
                 }
             }
         }

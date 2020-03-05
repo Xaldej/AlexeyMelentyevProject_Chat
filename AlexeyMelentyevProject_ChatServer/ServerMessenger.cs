@@ -73,13 +73,12 @@ namespace AlexeyMelentyevProject_ChatServer
 
                         break;
                     }
-                    
 
                     string message = builder.ToString();
 
                     if(CommandIdentifier.IsMessageACommand(message))
                     {
-                        NewCommandIsGotten(message);
+                        ExecuteCommands(message);
                     }
                     else
                     {
@@ -89,7 +88,7 @@ namespace AlexeyMelentyevProject_ChatServer
             }
         }
 
-        private void NewCommandIsGotten(string message)
+        private void ExecuteCommands(string message)
         {
             var commandAndData = CommandIdentifier.GetCommandAndDataFromMessage(message);
 
@@ -97,7 +96,7 @@ namespace AlexeyMelentyevProject_ChatServer
 
             if (commandsToExecute.Count() == 0)
             {
-                SendCommand("Unknown command" + commandAndData.Command);
+                SendCommand("/showerror:Unknown command" + commandAndData.Command);
                 return;
             }
 
