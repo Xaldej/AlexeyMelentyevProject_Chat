@@ -18,8 +18,6 @@ namespace Interfaces
 
         void ListenMessages();
 
-        void SendMessage(string message, Guid contactId);
-
         void SendCommand(string command);
     }
 }

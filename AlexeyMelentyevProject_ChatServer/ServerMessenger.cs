@@ -44,6 +44,7 @@ namespace AlexeyMelentyevProject_ChatServer
                 new AddContact(),
                 new GetConactList(),
                 new Login(),
+                new SendMessageToUser(),
             };
         }
 

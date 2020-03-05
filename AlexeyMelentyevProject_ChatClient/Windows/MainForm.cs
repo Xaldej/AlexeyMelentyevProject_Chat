@@ -70,7 +70,7 @@ namespace AlexeyMelentyev_chat_project.Windows
                 control.BackColor = Color.Gainsboro;
             }
 
-            ChatHistory_richTextBox.Enabled = true;
+            Chat_panel.Enabled = true;
             contactControl.BackColor = Color.Silver;
 
             Messenger.ChosenUser = contactControl.User;
@@ -106,7 +106,7 @@ namespace AlexeyMelentyev_chat_project.Windows
                 ShowMessage(userInput);
                 try
                 {
-                    Messenger.SendMessage(userInput, new Guid());
+                    Messenger.SendMessage(userInput);
                 }
                 catch
                 {

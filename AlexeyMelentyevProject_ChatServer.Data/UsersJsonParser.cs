@@ -12,30 +12,22 @@ namespace AlexeyMelentyevProject_ChatServer.Data
     {
         public static User JsonToOneUsers(string json)
         {
-            var user = JsonConvert.DeserializeObject<User>(json);
-
-            return user;
+            return JsonConvert.DeserializeObject<User>(json);
         }
 
         public static IEnumerable<User> JsonToManyUsers(string json)
         {
-            var users = JsonConvert.DeserializeObject<List<User>>(json);
-
-            return users;
+            return JsonConvert.DeserializeObject<List<User>>(json);
         }
 
         public static string ManyUsersToJson(IEnumerable<User> users)
         {
-            var json = JsonConvert.SerializeObject(users);
-
-            return json;
+            return JsonConvert.SerializeObject(users);
         }
 
         public static string OneUserToJson(User user)
         {
-            var json = JsonConvert.SerializeObject(user);
-
-            return json;
+            return JsonConvert.SerializeObject(user);
         }
     }
 }

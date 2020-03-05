@@ -42,6 +42,7 @@
             this.Chat_panel.Controls.Add(this.InputMessage_textBox);
             this.Chat_panel.Controls.Add(this.Send_button);
             this.Chat_panel.Controls.Add(this.ChatHistory_richTextBox);
+            this.Chat_panel.Enabled = false;
             this.Chat_panel.Location = new System.Drawing.Point(2, 1);
             this.Chat_panel.Name = "Chat_panel";
             this.Chat_panel.Size = new System.Drawing.Size(325, 561);
@@ -68,7 +69,6 @@
             // ChatHistory_richTextBox
             // 
             this.ChatHistory_richTextBox.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ChatHistory_richTextBox.Enabled = false;
             this.ChatHistory_richTextBox.Location = new System.Drawing.Point(3, 3);
             this.ChatHistory_richTextBox.Name = "ChatHistory_richTextBox";
             this.ChatHistory_richTextBox.ReadOnly = true;

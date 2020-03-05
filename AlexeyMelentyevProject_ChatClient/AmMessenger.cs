@@ -1,5 +1,6 @@
 ﻿using AlexeyMelentyev_chat_project.Commands.FromServer;
 using AlexeyMelentyev_chat_project.Commands.ToServer;
+using AlexeyMelentyevProject_ChatServer.Data;
 using AlexeyMelentyevProject_ChatServer.Data.Entities;
 using Commands;
 using Interfaces;
@@ -115,10 +116,18 @@ namespace AlexeyMelentyev_chat_project
             }
         }
 
-        public void SendMessage(string message, Guid contactId)
+        public void SendMessage(string message)
         {
-            var userToSend = ChosenUser;
-            byte[] data = Encoding.Unicode.GetBytes(message);
+            var messageToUser = new MessageToUser()
+            {
+                FromUserId = User.Id,
+                ToUserId = ChosenUser.Id,
+                Text = message,
+            };
+
+            var command = "/sendmessagetouser:" + MessagesJsonParser.OneMessageToJson(messageToUser);
+
+            byte[] data = Encoding.Unicode.GetBytes(command);
             Stream.Write(data, 0, data.Length);
         }
 
