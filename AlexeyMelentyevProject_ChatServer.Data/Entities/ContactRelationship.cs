@@ -10,12 +10,12 @@ namespace AlexeyMelentyevProject_ChatServer.Data.Entities
 {
     public class ContactRelationship : BaseEntity
     {
-        public User User { get; set; }
-
+        [Required]
         public Guid UserId { get; set; }
-        
-        public User Contact { get; set; }
 
+        [Required]
         public Guid ContactId { get; set; }
+
+        public ICollection<User> Users { get; set; }
     }
 }

@@ -17,15 +17,19 @@ namespace AlexeyMelentyev_chat_project
     {
         public User User { get; set; }
 
-        public TcpClient TcpClient { get; set; }
+        public List<User> UserContacts { get; set; }
 
-        public string UserLogin { get; set; }
+        public TcpClient TcpClient { get; set; }
 
         public List<Command> Commands { get; }
 
         NetworkStream Stream { get; set; }
 
         public Action<string> MessageIsGotten;
+        public Action<List<User>> ContactsAreUpdated;
+
+        CorrectAddingContact CorrectAddingContact { get; set; }
+        CorrectContactList CorrectContactList { get; set; }
 
 
         public AmMessenger()
@@ -34,16 +38,34 @@ namespace AlexeyMelentyev_chat_project
 
         public AmMessenger(string userLogin)
         {
-            UserLogin = userLogin;
+            User = new User()
+            {
+                Login = userLogin
+            };
+
+            CorrectAddingContact = new CorrectAddingContact();
+            CorrectAddingContact.ContactListIsUpdated += UpdateContacts;
+
+            CorrectContactList = new CorrectContactList();
+            CorrectContactList.ContactListIsUpdated += UpdateContacts;
+
+
+            UserContacts = new List<User>();
 
             Commands = new List<Command>()
             {
+                CorrectAddingContact,
+                CorrectContactList,
                 new CorrectLogin(),
+                new ErrorAddingContact(),
+                new ServerError(),
 
                 new AddContact(),
                 new Connect(),
                 new GetConactList(),
                 new Login(),
+
+                
             };
         }
 
@@ -105,7 +127,7 @@ namespace AlexeyMelentyev_chat_project
 
             using (Stream = TcpClient.GetStream())
             {
-                ExecuteCommands($"/Login:{UserLogin}");
+                ExecuteCommands($"/Login:{User.Login}");
 
                 while (true)
                 {
@@ -118,6 +140,11 @@ namespace AlexeyMelentyev_chat_project
         {
             byte[] data = Encoding.Unicode.GetBytes(command);
             Stream.Write(data, 0, data.Length);
+        }
+
+        private void UpdateContacts()
+        {
+            ContactsAreUpdated(UserContacts);
         }
     }
 }

@@ -10,28 +10,28 @@ namespace AlexeyMelentyevProject_ChatServer.Data
 {
     public class AmMessengerContext : DbContext
     {
-        public AmMessengerContext() : base("AmMessenger7")
+        public AmMessengerContext() : base("AmMessenger3")
         {
             Database.SetInitializer(new CreateDatabaseIfNotExists<AmMessengerContext>());
         }
 
         public DbSet<User> Users { get; set; }
 
-        //public DbSet<ContactRelationship> ContactRelationships { get; set; }
+        public DbSet<ContactRelationship> ContactRelationships { get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<User>()
-                .HasMany(u => u.ContactRelationships)
-                .WithMany()
-                .Map(m =>
-                    {
-                        m.MapLeftKey("UserId");
-                        m.MapRightKey("ContactRelationshipId");
-                        m.ToTable("ContactRelationships");
-                    });
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<User>()
+        //        .HasMany(u => u.ContactRelationships)
+        //        .WithMany()
+        //        .Map(m =>
+        //            {
+        //                m.MapLeftKey("UserId");
+        //                m.MapRightKey("ContactRelationshipId");
+        //                m.ToTable("ContactRelationships");
+        //            });
 
-            base.OnModelCreating(modelBuilder);
-        }
+        //    base.OnModelCreating(modelBuilder);
+        //}
     }
 }

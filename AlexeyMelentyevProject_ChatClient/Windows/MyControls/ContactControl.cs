@@ -12,9 +12,19 @@ namespace AlexeyMelentyev_chat_project.Windows.MyControls
 {
     public partial class ContactControl : UserControl
     {
-        public ContactControl()
+        public string Login { get; set; }
+
+        public Guid Id { get; set; }
+
+        public ContactControl(string login, Guid id)
         {
+            Login = login;
+            Id = id;
+
             InitializeComponent();
+
+            ContactLogin_label.Text = Login;
         }
+
     }
 }

@@ -34,15 +34,15 @@ namespace Commands
 
             foreach (var ch in fullCommand)
             {
-                if (ch == ':')
+                if (wasDividerInLine)
                 {
-                    wasDividerInLine = true;
+                    commandData += ch;
                 }
                 else
                 {
-                    if (wasDividerInLine)
+                    if (ch == ':')
                     {
-                        commandData += ch;
+                        wasDividerInLine = true;
                     }
                     else
                     {

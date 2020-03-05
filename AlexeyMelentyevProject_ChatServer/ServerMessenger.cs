@@ -14,6 +14,8 @@ namespace AlexeyMelentyevProject_ChatServer
     {
         public User User { get; set; }
 
+        public List<User> UserContacts { get; set; }
+
         public List<ServerMessenger> ConnectedClients { get; set; }
 
         public TcpClient TcpClient { get; set; }
@@ -21,6 +23,7 @@ namespace AlexeyMelentyevProject_ChatServer
         NetworkStream Stream { get; set; }
 
         public List<Command> Commands { get; }
+        
 
         ServerMessenger()
         {
@@ -32,9 +35,15 @@ namespace AlexeyMelentyevProject_ChatServer
             TcpClient = tcpClient;
             ConnectedClients = connectedClients;
 
+            User = new User();
+
+            UserContacts = new List<User>();
+
             Commands = new List<Command>()
             {
-                new Login()
+                new AddContact(),
+                new GetConactList(),
+                new Login(),
             };
         }
 
@@ -101,8 +110,7 @@ namespace AlexeyMelentyevProject_ChatServer
         public void SendCommand(string command)
         {
             byte[] data = new byte[TcpClient.ReceiveBufferSize];
-            var mes2 = command.ToUpper();
-            data = Encoding.Unicode.GetBytes(mes2);
+            data = Encoding.Unicode.GetBytes(command);
 
             Stream.Write(data, 0, data.Length);
         }
@@ -110,8 +118,7 @@ namespace AlexeyMelentyevProject_ChatServer
         public void SendMessage(string message, Guid contactId)
         {
             byte[] data = new byte[TcpClient.ReceiveBufferSize];
-            var mes2 = message.ToUpper();
-            data = Encoding.Unicode.GetBytes(mes2);
+            data = Encoding.Unicode.GetBytes(message);
 
             var clientToSend = GetClientToSend(contactId);
 

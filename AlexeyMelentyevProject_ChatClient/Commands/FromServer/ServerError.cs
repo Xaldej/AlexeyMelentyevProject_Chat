@@ -5,18 +5,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace AlexeyMelentyev_chat_project.Commands.FromServer
 {
-    public class CorrectLogin : Command
+    public class ServerError : Command
     {
-        public override string Name => "CorrectLogin";
+        public override string Name => "ServerError";
 
         public override void Execute(IMessenger messenger, string data)
         {
-            messenger.User.Id = Guid.Parse(data);
-            var message = "/getconactlist:" + data;
-            messenger.SendCommand(message);
+            var message = "Server error\n" +
+                "Try to restart messenger\n\n" +
+                "Details:\n" + data;
+
+            MessageBox.Show("Server Error", message);
         }
     }
 }

@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AlexeyMelentyev_chat_project.Windows.MyControls;
+using AlexeyMelentyevProject_ChatServer.Data.Entities;
 
 namespace AlexeyMelentyev_chat_project.Windows
 {
@@ -38,9 +40,21 @@ namespace AlexeyMelentyev_chat_project.Windows
         {
             Messenger = new AmMessenger(userLogin);
             Messenger.MessageIsGotten += ShowGottenMessage;
+            Messenger.ContactsAreUpdated += UpdateContacts;
 
             var thread = new Thread(Messenger.Process);
             thread.Start();
+        }
+
+        private void UpdateContacts(List<User> contacts)
+        {
+            foreach (var contact in contacts)
+            {
+                var contactControl = new ContactControl(contact.Login, contact.Id) { Dock = DockStyle.Top };
+
+                Contacts_panel.Invoke(new Action(() => Contacts_panel.Controls.Add(contactControl)));
+                    
+            }
         }
 
         private void InputMessage_textBox_KeyDown(object sender, KeyEventArgs e)

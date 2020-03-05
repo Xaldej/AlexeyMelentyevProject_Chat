@@ -5,18 +5,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace AlexeyMelentyev_chat_project.Commands.FromServer
 {
-    public class CorrectLogin : Command
+    public class ErrorAddingContact : Command
     {
-        public override string Name => "CorrectLogin";
+        public override string Name => "ErrorAddingContact";
 
         public override void Execute(IMessenger messenger, string data)
-        {
-            messenger.User.Id = Guid.Parse(data);
-            var message = "/getconactlist:" + data;
-            messenger.SendCommand(message);
+        {   
+            MessageBox.Show("Error", data);
         }
     }
 }

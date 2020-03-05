@@ -47,7 +47,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AmMessenger.cs" />
+    <Compile Include="Commands\FromServer\CorrectAddingContact.cs" />
+    <Compile Include="Commands\FromServer\CorrectContactList.cs" />
     <Compile Include="Commands\FromServer\CorrectLogin.cs" />
+    <Compile Include="Commands\FromServer\ErrorAddingContact.cs" />
+    <Compile Include="Commands\FromServer\ServerError.cs" />
     <Compile Include="Commands\ToServer\AddContact.cs" />
     <Compile Include="Commands\ToServer\Connect.cs" />
     <Compile Include="Commands\ToServer\GetConactList.cs" />

@@ -35,7 +35,6 @@
             this.Contacts_panel = new System.Windows.Forms.Panel();
             this.AddContact_button = new System.Windows.Forms.Button();
             this.Chat_panel.SuspendLayout();
-            this.Contacts_panel.SuspendLayout();
             this.SuspendLayout();
             // 
             // Chat_panel
@@ -78,17 +77,16 @@
             // 
             // Contacts_panel
             // 
-            this.Contacts_panel.Controls.Add(this.AddContact_button);
             this.Contacts_panel.Location = new System.Drawing.Point(326, 1);
             this.Contacts_panel.Name = "Contacts_panel";
-            this.Contacts_panel.Size = new System.Drawing.Size(155, 560);
+            this.Contacts_panel.Size = new System.Drawing.Size(155, 529);
             this.Contacts_panel.TabIndex = 1;
             // 
             // AddContact_button
             // 
-            this.AddContact_button.Location = new System.Drawing.Point(9, 531);
+            this.AddContact_button.Location = new System.Drawing.Point(333, 534);
             this.AddContact_button.Name = "AddContact_button";
-            this.AddContact_button.Size = new System.Drawing.Size(138, 23);
+            this.AddContact_button.Size = new System.Drawing.Size(148, 23);
             this.AddContact_button.TabIndex = 0;
             this.AddContact_button.Text = "Add Contact";
             this.AddContact_button.UseVisualStyleBackColor = true;
@@ -99,6 +97,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(484, 561);
+            this.Controls.Add(this.AddContact_button);
             this.Controls.Add(this.Contacts_panel);
             this.Controls.Add(this.Chat_panel);
             this.Name = "MainForm";
@@ -106,7 +105,6 @@
             this.Load += new System.EventHandler(this.AM_Chat_Load);
             this.Chat_panel.ResumeLayout(false);
             this.Chat_panel.PerformLayout();
-            this.Contacts_panel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

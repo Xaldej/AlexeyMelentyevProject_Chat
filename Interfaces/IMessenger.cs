@@ -12,6 +12,8 @@ namespace Interfaces
     {
         User User { get; set; }
 
+        List<User> UserContacts { get; set; }
+
         TcpClient TcpClient { get; set; }
 
         void ListenMessages();

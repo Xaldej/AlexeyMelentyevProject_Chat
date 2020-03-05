@@ -14,7 +14,5 @@ namespace AlexeyMelentyevProject_ChatServer.Data.Entities
         [MaxLength(255)]
         [Index(IsUnique = true)]
         public string Login { get; set; }
-
-        public List<User> ContactRelationships { get; set; }
     }
 }

@@ -28,18 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.ContactLogin_label = new System.Windows.Forms.Label();
             this.SuspendLayout();
+            // 
+            // ContactLogin_label
+            // 
+            this.ContactLogin_label.AutoSize = true;
+            this.ContactLogin_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ContactLogin_label.Location = new System.Drawing.Point(3, 14);
+            this.ContactLogin_label.Name = "ContactLogin_label";
+            this.ContactLogin_label.Size = new System.Drawing.Size(51, 20);
+            this.ContactLogin_label.TabIndex = 0;
+            this.ContactLogin_label.Text = "label1";
             // 
             // ContactControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Silver;
+            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Controls.Add(this.ContactLogin_label);
             this.Name = "ContactControl";
-            this.Size = new System.Drawing.Size(155, 50);
+            this.Size = new System.Drawing.Size(153, 48);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
+
+        private System.Windows.Forms.Label ContactLogin_label;
     }
 }
